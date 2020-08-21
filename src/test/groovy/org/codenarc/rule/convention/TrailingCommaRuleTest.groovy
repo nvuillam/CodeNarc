@@ -263,6 +263,18 @@ class TrailingCommaRuleTest extends AbstractRuleTestCase<TrailingCommaRule> {
                 [lineNumber:4, sourceLineText:'def map2 = [', messageText:MAP_ERROR])
     }
 
+    @Test
+    void test_NoViolationIfMapInsideString() {
+        final SOURCE = '''
+        def responseMap = callRestApi(
+            "${tacUrl}?${requestBody.bytes.encodeBase64().toString()}",
+            method: "GET",
+            noDsl: noDsl
+        )
+        '''
+        assertNoViolations(SOURCE)
+    }
+
     @Override
     protected TrailingCommaRule createRule() {
         new TrailingCommaRule()
