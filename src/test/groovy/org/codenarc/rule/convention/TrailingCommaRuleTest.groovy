@@ -22,6 +22,7 @@ import org.junit.Test
  * Tests for TrailingCommaRule
  *
  * @author Yuriy Chulovskyy
+ * @author Nicolas Vuillamy
  */
 class TrailingCommaRuleTest extends AbstractRuleTestCase<TrailingCommaRule> {
 
@@ -266,11 +267,13 @@ class TrailingCommaRuleTest extends AbstractRuleTestCase<TrailingCommaRule> {
     @Test
     void test_NoViolationIfMapInsideString() {
         final SOURCE = '''
-        def responseMap = callRestApi(
-            "${tacUrl}?${requestBody.bytes.encodeBase64().toString()}",
-            method: "GET",
-            noDsl: noDsl
-        )
+        def someMethod() {
+            def responseMap = callRestApi(
+                "${tacUrl}?${requestBody.bytes.encodeBase64().toString()}",
+                method: 'GET',
+                noDsl: noDsl
+            )
+        }
         '''
         assertNoViolations(SOURCE)
     }
