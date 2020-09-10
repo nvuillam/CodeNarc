@@ -253,6 +253,35 @@ class IndentationRuleTest extends AbstractRuleTestCase<IndentationRule> {
     }
 
     @Test
+    void test_Method_spacesPerIndentLevelOverride_Violation() {
+        final SOURCE = '''
+            |listView('123') {
+            |    description('asd')
+            |    jobs {
+            |        name('qwe')
+            |        name('zxc')
+            |    }
+            |    columns {
+            |        status()
+            |        weather()
+            |    }
+            |}
+        '''.stripMargin()
+        rule.spacesPerIndentLevel = 3
+        assertViolations(SOURCE,
+                [lineNumber:3],
+                [lineNumber:4],
+                [lineNumber:5],
+                [lineNumber:6],
+                [lineNumber:8],
+                [lineNumber:9],
+                [lineNumber:10]
+        )
+    }
+
+
+
+    @Test
     void test_Constructor() {
         final SOURCE = '''
             |class MyAstVisitor extends OtherAstVisitor {
